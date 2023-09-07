@@ -1,6 +1,13 @@
 <template>
   <v-main id="main" class="bg-grey-lighten-2" height="50vh">
     <v-container>
+      <v-alert 
+        color="warning"
+        icon="$warning"
+        text="닉네임을 입력해주세요"
+        v-show="alertShown"
+        :style="{position: 'absolute', top: '170px', left: '50%', transform: 'translate(-50%,0)' ,zIndex: 1000}"
+        />
       <v-row>
         <v-col offset="0" cols="12" offset-sm="2" sm="8" offset-lg="3" lg="6">
           <v-text-field
@@ -14,7 +21,7 @@
             <v-btn
               class="bg-primary text-white font-weight-bold search-btn"
               size="56px"
-              @click="searchUser"
+              @click="search_keyword ? searchUser() : alertForNull()"
             >
               VOW
             </v-btn>
@@ -122,7 +129,7 @@ import { useRouter, useRoute } from "vue-router";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-
+let alertShown = ref(false)
 let search_keyword = ref(""),
   champs_en = [
     "Garen",
@@ -157,6 +164,14 @@ let searchUser = (query) => {
     query: { nickname: search_keyword.value },
   });
 };
+const toggleAlert = () => {
+  alertShown.value = !alertShown.value
+}
+const alertForNull = () => {
+  setTimeout(toggleAlert, 1000);
+  toggleAlert();
+}
+
 /** 로테이션 챔피언 번호 가져오기 */
 function getRoationChampsData() {
   return axios.get(ApiUrl);
