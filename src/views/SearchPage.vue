@@ -12,7 +12,7 @@
             @keyup.enter="[searchUser(), getData()]"
           >
             <v-btn
-              class="bg-primary text-white search-btn"
+              class="bg-primary text-white font-weight-bold search-btn"
               size="56px"
               @click="[searchUser(), getData(), getMatchData()]"
             >
